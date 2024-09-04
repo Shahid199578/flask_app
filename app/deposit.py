@@ -6,19 +6,11 @@ from . import db
 import random
 from app import encrypt, decrypt
 from functools import wraps
+from .notification_service import notify_user_of_transaction
 
 def generate_random_15_digit_number():
     return random.randint(10**14, 10**15 - 1)
 
-# # Encrypt account number using serializer
-# def encrypt_account_number(account_number):
-#     return serializer.dumps(str(account_number))
-
-# def decrypt_account_number(encrypted_account_number):
-#     try:
-#         return serializer.loads(encrypted_account_number)
-#     except Exception:
-#         return None
 
 def deposit(encrypted_account_number):
     account_number = decrypt(encrypted_account_number)
@@ -53,6 +45,8 @@ def deposit(encrypted_account_number):
                 db.session.add(new_transaction)
                 db.session.commit()
 
+                 # Send SMS notification using the utility function
+                notify_user_of_transaction(user, amount, 'deposit', updated_balance=updated_balance, reference_number=reference_number)
                 # After committing transaction, redirect with reference number as query parameter
                 flash(f'{transaction_type} successful. Reference number: {reference_number}', 'success')
                 return redirect(url_for('all_accounts'))
