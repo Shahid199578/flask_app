@@ -6,7 +6,7 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - db_data:/var/lib/mysql
-      - ./create_database_and_tables.sql:/docker-entrypoint-initdb.d/init.sql
+      # - ./create_database_and_tables.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=Shahid
@@ -28,11 +28,10 @@ services:
       - MYSQL_HOST=db
       - MYSQL_DATABASE=flask_app
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=Shahid 
+      - MYSQL_PASSWORD=Shahid
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
 
 volumes:
   db_data:
-<<<<<<< HEAD
-  
-=======
->>>>>>> 8ad0b0d965202959e06c4474165d2b5f64ee123b

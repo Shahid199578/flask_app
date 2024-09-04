@@ -7,6 +7,7 @@ from .models import Users, Account, Transactions
 from datetime import datetime
 import os
 import random
+from .notification_service import notify_user_of_account_opening
 
 # Function to generate a random 15-digit number
 def generate_random_15_digit_number():
@@ -137,6 +138,9 @@ def open_account():
 
                 db.session.add(loan_transaction)
                 db.session.commit()
+
+            # Notify user of account opening
+            notify_user_of_account_opening(user, account.account_number)
 
             flash('Account opened successfully', 'success')
             return redirect(url_for('all_accounts'))

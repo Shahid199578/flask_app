@@ -1,11 +1,10 @@
-#emi_payment.py
-
 from flask import render_template, request, redirect, url_for, flash
 from .models import Users, Account, Transactions
 from . import db
 from app import encrypt, decrypt
 from datetime import datetime
 import random
+from .notification_service import notify_user_of_transaction
 
 def generate_random_15_digit_number():
     return random.randint(10**14, 10**15 - 1)
@@ -42,23 +41,12 @@ def emi_payment(encrypted_account_number):
         emi = loan_amount / tenure if tenure > 0 else 0
 
     emi = round(emi)  # Round EMI to the nearest integer
-<<<<<<< HEAD
-=======
-
-    # Calculate the remaining loan amount
-    transactions = Transactions.query.filter(
-        and_(Transactions.account_number == account_number, Transactions.description.like('%EMI Payment%'))
-    ).all()
-    total_paid = sum(float(t.deposit) for t in transactions)
-    remaining_loan_amount = loan_amount - total_paid
->>>>>>> 8ad0b0d965202959e06c4474165d2b5f64ee123b
 
     if request.method == 'POST':
         try:
             emi_amount = float(request.form['emi_amount'])
             if emi_amount <= 0:
                 flash('Invalid EMI amount', 'error')
-<<<<<<< HEAD
                 return redirect(url_for('emi_payment', encrypted_account_number=encrypted_account_number))
 
             # Fetch the latest transaction to get the current balance
@@ -76,22 +64,11 @@ def emi_payment(encrypted_account_number):
                 emi_amount = remaining_loan_amount
 
             # Update remaining loan amount and account balance
-=======
-                return redirect(url_for('emi_payment', account_number=account_number))
-            
-            # Ensure EMI amount is correct
-            if emi_amount != emi:
-                flash(f'The EMI amount should be {emi}.', 'error')
-                return redirect(url_for('emi_payment', account_number=account_number))
-
-            # Subtract the EMI amount from the remaining loan amount
->>>>>>> 8ad0b0d965202959e06c4474165d2b5f64ee123b
             remaining_loan_amount -= emi_amount
             account.balance = remaining_loan_amount
             db.session.commit()
 
-              # Calculate the interest portion of the EMI for this payment
-
+            # Calculate the interest portion of the EMI for this payment
             interest_payment = round(loan_amount * monthly_interest_rate)
             # Principal payment is EMI minus the interest portion
             principal_payment = emi - interest_payment
@@ -100,36 +77,19 @@ def emi_payment(encrypted_account_number):
 
             # Save transaction details
             new_transaction = Transactions(
-<<<<<<< HEAD
                 account_number=account_number,
                 date=datetime.now(),
                 description='EMI Payment',
                 amount=principal_payment,
                 balance=remaining_loan_amount,  # Updated remaining loan amount
                 deposit=emi_amount,  # Full EMI payment logged as deposit
-=======
-                account_number=user.account_number,
-                description='EMI Payment',
-                balance=remaining_loan_amount,
-                deposit=emi_amount,
->>>>>>> 8ad0b0d965202959e06c4474165d2b5f64ee123b
                 reference_number=reference_number
             )
             db.session.add(new_transaction)
             db.session.commit()
-<<<<<<< HEAD
-=======
 
-            flash(f'EMI Payment successful. Reference number: {reference_number}', 'success')
-            return redirect(url_for('all_accounts'))
-
-        except Exception as e:
-            print(f"Exception occurred: {str(e)}")
-            db.session.rollback()
-            flash('Transaction failed. Please try again later.', 'error')
-            return redirect(url_for('emi_payment', account_number=account_number))
->>>>>>> 8ad0b0d965202959e06c4474165d2b5f64ee123b
-
+            # Send SMS notification using the utility function
+            notify_user_of_transaction(user, emi_amount, 'emi_payment', updated_balance=account.balance, reference_number=reference_number)
             # Success message based on loan closure
             if remaining_loan_amount == 0:
                 flash(f'EMI Payment successful. Loan fully paid. Reference number: {reference_number}', 'success')
