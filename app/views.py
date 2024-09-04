@@ -103,7 +103,11 @@ def dashboard():
     total_balance = db.session.query(db.func.sum(Account.balance)).scalar() or 0
     return render_template('dashboard.html', total_accounts=total_accounts, total_balance=total_balance, username=session['username'])
     
-
+# @app.route('/all_accounts')
+# @login_required
+# def all_accounts():
+#     accounts = Account.query.all()
+#     return render_template('all_accounts.html', accounts=accounts, encrypt=encrypt, decrypt=decrypt)
 
 @app.route('/all_accounts')
 @login_required
@@ -119,6 +123,7 @@ def all_transaction():
     transaction = Transactions.query.all()
     return render_template('all_transaction.html', transaction=transaction)
 
+app.route('/open_account', methods=['GET', 'POST'])(open_account)
 
 
 @app.route('/all_users')
@@ -188,7 +193,6 @@ def edit_user(user_id):
     # If the request method is GET, render the edit form
     return render_template('edit_user.html', user=user)
 
-app.route('/open_account', methods=['GET', 'POST'])(open_account)
 app.route('/deposit/<encrypted_account_number>', methods=['GET', 'POST'])(deposit)
 app.route('/withdraw/<encrypted_account_number>', methods=['GET', 'POST'])(withdraw)
 app.route('/emi_payment/<encrypted_account_number>', methods=['GET', 'POST'])(emi_payment)
