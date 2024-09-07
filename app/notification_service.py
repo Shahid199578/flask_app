@@ -6,13 +6,13 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-def notify_user_of_transaction(user, amount, transaction_type, updated_balance=None, reference_number=None):
+def notify_user_of_transaction(user, account_number, amount, transaction_type, updated_balance=None, reference_number=None):
     if transaction_type == 'deposit':
-        sms_message = f"Your account has been credited with {amount}. New balance is {updated_balance}. Reference number: {reference_number}"
+        sms_message = f"Dear {user} Your account has been credited with {amount} in your {account_number}. New balance is {updated_balance}. Reference number: {reference_number}"
     elif transaction_type == 'withdrawal':
-        sms_message = f"Your account has been debited with {amount}. New balance is {updated_balance}. Reference number: {reference_number}"
+        sms_message = f"Dear {user} Your account has been debited with {amount} in your {account_number}. New balance is {updated_balance}. Reference number: {reference_number}"
     elif transaction_type == 'emi_payment':
-        sms_message = f"EMI Payment of {amount} completed. New balance is {updated_balance}. Reference number: {reference_number}"
+        sms_message = f"Dear {user} EMI Payment of {amount} has been recieved in you loan account {account_number}, with Reference number: {reference_number}"
     else:
         sms_message = f"Notification: {transaction_type} of {amount}. Reference number: {reference_number}"
     
@@ -26,13 +26,7 @@ def notify_user_of_transaction(user, amount, transaction_type, updated_balance=N
 
 def notify_user_of_account_opening(user, account_number):
     logger.debug("notify_user_of_account_opening function called.")
-    sns_message = f"Congratulations! Your account with number {account_number} has been successfully opened. Welcome aboard!"
-    response = publish_to_sns_topic(SNS_TOPIC_ARN, sns_message)
-    if response:
-        logger.info(f"Notification sent to SNS Topic: {response}")
-    else:
-        logger.error("Failed to send notification to SNS Topic.")
-
+    sms_message = f"Congratulations! {user.first_name} {user.last_name} Your account with number {account_number} has been successfully opened. Welcome aboard!"
     # Add default country code if not present
     mobile_number = user.mobile_number
     if not mobile_number.startswith('+'):

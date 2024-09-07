@@ -6,8 +6,8 @@ import requests
 def send_sms(mobile_number, message):
     # Gupshup API configuration
     api_url = "https://enterprise.smsgupshup.com/GatewayAPI/rest"
-    user_id = "your_gupshup_userid"  # Replace with your Gupshup user ID
-    password = "your_gupshup_password"  # Replace with your Gupshup password
+    user_id = ""  # Replace with your Gupshup user ID
+    password = ""  # Replace with your Gupshup password
     
     # Prepare the payload
     payload = {

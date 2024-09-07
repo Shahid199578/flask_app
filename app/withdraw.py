@@ -44,11 +44,15 @@ def withdraw(encrypted_account_number):
                     db.session.add(new_transaction)
                     db.session.commit()
 
-                    # Send SMS notification using the utility function
-                    notify_user_of_transaction(user, amount, 'withdrawal', updated_balance=account.balance, reference_number=reference_number)
-                    
                     flash(f'{transaction_type} successful. Reference number: {reference_number}', 'success')
+
+                    try:
+                        # Send SMS notification using the utility function
+                        notify_user_of_transaction(user, amount, 'withdrawal', updated_balance=account.balance, reference_number=reference_number, transaction_type=transaction_type)
+                    except Exception as notification_error:
+                        print(f"Notification error: {notification_error}")
                     return redirect(url_for('all_accounts'))
+                
                 else:
                     flash('Insufficient balance', 'error')
                     print(f"Withdrawal failed: Insufficient balance. Amount: {amount}, Balance: {account.balance}")

@@ -33,10 +33,27 @@ def open_account():
         address = request.form.get('address')
         profile_picture = request.files.get('profile_picture')
         signature = request.files.get('signature')
-        mobile_number = request.form.get('mobile_number')
-        aadhaar_number = request.form.get('aadhaar_number')
-        pan_number = request.form.get('pan_number')
+        mobile_number_digits = request.form.getlist('mobile_number[]')
+        mobile_number = ''.join(mobile_number_digits)
+        # mobile_number = request.form.get('mobile_number')
+        aadhaar_number_digits = request.form.getlist('aadhaar_number[]')
+        aadhaar_number = ''.join(aadhaar_number_digits)
+        # aadhaar_number = request.form.get('aadhaar_number')
+        pan_number_digits = request.form.getlist('pan_number[]')
+        pan_number = ''.join(pan_number_digits)
+        # pan_number = request.form.get('pan_number')
         account_type = request.form.get('account_type')
+
+        # Check if a user with the same Aadhaar number, PAN number, or mobile number already exists
+        existing_user = Users.query.filter(
+            (Users.aadhaar_number == aadhaar_number) | 
+            (Users.pan_number == pan_number) | 
+            (Users.mobile_number == mobile_number)
+        ).first()
+
+        if existing_user:
+            flash("Alert: User with the same Aadhaar number, PAN number, or mobile number already exists.", 'error')
+            return redirect(url_for('all_accounts'))
 
         # Check if the account type is 'Loan' and set initial_balance accordingly
         if account_type == "Loan":
@@ -63,6 +80,8 @@ def open_account():
         # Save files to the specified paths
         profile_picture.save(profile_picture_path)
         signature.save(signature_path)
+
+
 
         try:
             # Create a new user object with the form data
@@ -140,7 +159,7 @@ def open_account():
                 db.session.commit()
 
             # Notify user of account opening
-            notify_user_of_account_opening(user, account.account_number)
+            notify_user_of_account_opening(new_user, new_account.account_number)
 
             flash('Account opened successfully', 'success')
             return redirect(url_for('all_accounts'))

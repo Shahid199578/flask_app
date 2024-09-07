@@ -54,8 +54,8 @@ def decrypt(encrypted_account_number):
         print(f"Decryption error: {e}")  # Log the error for debugging
         return None
 
-# Define SNS Topic ARN
-SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN', 'arn:aws:sns:us-east-1:016877529802:MySMSTopic')
+# # Define SNS Topic ARN
+# SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN', 'arn:aws:sns:us-east-1:016877529802:MySMSTopic')
 
 # Import views and models
 from app import views, models
@@ -63,3 +63,6 @@ from app import views, models
 # Ensure all models are created in the database
 with app.app_context():
     db.create_all()
+
+if __name__ == '__name__':
+    app.run(host='0.0.0.0', port=5000)

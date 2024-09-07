@@ -21,6 +21,6 @@ RUN apt-get update && \
 EXPOSE 5000
 # Command to run on container start
 # If using wait-for-it, adjust the CMD to include the wait-for-it script
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["flask", "db:3306", "run", "--host=0.0.0.0"]
 #CMD ["db:3306", "--", "flask", "run", "--host=0.0.0.0"]
 
