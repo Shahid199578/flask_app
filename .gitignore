@@ -1,0 +1,6 @@
+app/logs/
+*.bak
+*.bk
+.env
+app/*.pem
+app/static/uploads/

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"> 
+</head>
+<body>
+{% include 'navbar.html' %}
+
+    <div class="container">
+        <table class="button-table">
+            <tr>
+                <td colspan="2"><h1>Welcome to Bank Management System</h1></td>
+            </tr>
+            <tr>
+                <td><a href="{{ url_for('all_accounts') }}" class="button">View All Accounts</a></td>
+                <td><a href="{{ url_for('all_users') }}" class="button">View All Users</a></td>
+            </tr>
+            <tr>
+                <td><a href="{{ url_for('open_account') }}" class="button">Open New Account</a></td>
+                <td><a href="{{ url_for('all_transaction') }}" class="button">All Account Statement</a></td>
+           
+            </tr>
+	    <tr>
+	    
+	    <th>
+		    <form class="search-form" action="{{ url_for('search.search') }}" method="GET">
+			    <input type="text" name="query" placeholder="Search...">
+			    <button type="submit">Search</button>
+                    </form>
+                </th>
+        </table>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Accounts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+    <h1>All Users</h1>
+    <table>
+        <tr>
+            <th>Account Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Address</th>
+            <th>Mobile Number</th>
+            <th>Aadhar Number</th>
+            <th>PAN Number</th>
+            <th>Profile Picture</th>
+            <th>Signature</th>
+	    <th> EDIT</th>
+            <!-- Add more headers if needed -->
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.account_number }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.dob }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.mobile_number }}</td>
+            <td>{{ user.aadhaar_number }}</td>
+            <td>{{ user.pan_number }}</td>
+            <td><img src="{{ url_for('static', filename='uploads/' + user.profile_picture) }}" alt="Profile Picture" width="30" height="50"></td>
+            <td><img src="{{ url_for('static', filename='uploads/' + user.signature) }}" alt="Profile Picture" width="30" height="50"></td>
+            <td><a href="{{ url_for('view_user_details', encrypted_account_number=encrypt(user.account_number)) }}" class="button">View Details</a></td> <!-- Link to the edit page -->
+            <!-- Add more columns if needed --> <!-- Add more columns if needed -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+

@@ -1,0 +1,132 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set body font and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333; /* Set a default text color for better readability */
+}
+
+/* Style the container for the dashboard */
+.container {
+    max-width: 800px; /* Set maximum width */
+    margin: 20px auto; /* Center the container horizontally with some space around it */
+    padding: 20px; /* Add padding inside the container */
+    background-color: #ffffff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+/* Style heading elements */
+h1, h2 {
+    text-align: center; /* Center align the headings */
+    margin-bottom: 20px; /* Add space below the headings */
+    color: #333; /* Ensure headings have a readable color */
+}
+
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold; /* Make header text bold */
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table td:hover {
+    background-color: #ddd;
+}
+
+/* Styles for image containers */
+.image-container {
+    width: 100px; /* Set desired width */
+    height: 100px; /* Set desired height */
+    overflow: hidden; /* Hide overflow */
+    display: flex; /* Center the image */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    border: 1px solid #ddd; /* Add border to image container */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background for image container */
+}
+
+/* Image styles */
+.image-container img {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the box, cropping as necessary */
+}
+
+/* Button styles */
+.button, .change-button {
+    display: block; /* Make the links block-level elements */
+    width: 100%; /* Set width to 100% */
+    text-align: center; /* Center align the text */
+    padding: 10px 0; /* Add padding */
+    margin-bottom: 10px; /* Add space below each button */
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Add rounded corners */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.button:hover, .change-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Input container for PAN Number */
+.input-container {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+/* Style for digit blocks */
+.digit-block {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    border-radius: 4px; /* Rounded corners for digit blocks */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Reduce padding on smaller screens */
+    }
+
+    .image-container {
+        width: 80px; /* Adjust image container width */
+        height: 80px; /* Adjust image container height */
+    }
+
+    .digit-block {
+        width: 15px; /* Adjust digit block width */
+        height: 15px; /* Adjust digit block height */
+        font-size: 12px; /* Adjust font size */
+    }
+.full-line {
+    width: 100%;
+}
